@@ -3,6 +3,7 @@ package com.appdeveloperblog.app.ws.ui.controller;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,8 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.appdeveloperblog.app.ws.service.UserService;
+import com.appdeveloperblog.app.ws.ui.Exceptionerror.ErrorMessages;
+import com.appdeveloperblog.app.ws.ui.exception.UserServiceException;
 import com.appdeveloperblog.app.ws.ui.model.request.UserDetailRequestModel;
-
 import com.appdeveloperblog.app.ws.ui.model.response.UserRest;
 import com.appdeveloperblog.app.ws.ui.shared.dto.UserDto;
 
@@ -27,7 +29,7 @@ public class Usercontroller {
 	
 	UserService userService;
 
-	@GetMapping(path="/{id}")
+	@GetMapping(path="/{id}", produces= {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
 
 	public UserRest getuser(@PathVariable String id) {
 		UserRest returnvalue = new UserRest();
@@ -38,10 +40,18 @@ public class Usercontroller {
 		return returnvalue;
 	}
 
-	@PostMapping
+	@PostMapping(consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE},
+produces= {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
 
-	public UserRest createUser(@RequestBody UserDetailRequestModel userdetail) {
-
+	public UserRest createUser(@RequestBody UserDetailRequestModel userdetail) throws Exception
+	{
+		
+		
+		
+		if(userdetail.getFirstname().isEmpty()) throw new UserServiceException(ErrorMessages.MISSING_REQUIRED_FIELD.getErrorMessages());
+		
+		
+		
 		UserRest returnvalue = new UserRest();
 
 		UserDto userDto = new UserDto();
