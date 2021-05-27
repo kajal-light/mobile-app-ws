@@ -14,6 +14,9 @@ import com.appdeveloperblog.app.ws.io.entity.UserEntity;
 import com.appdeveloperblog.app.ws.repo.UserRepository;
 import com.appdeveloperblog.app.ws.service.UserService;
 import com.appdeveloperblog.app.ws.shared.Utils;
+import com.appdeveloperblog.app.ws.ui.Exceptionerror.ErrorMessages;
+import com.appdeveloperblog.app.ws.ui.exception.ErrorMessage;
+import com.appdeveloperblog.app.ws.ui.exception.UserServiceException;
 import com.appdeveloperblog.app.ws.ui.shared.dto.UserDto;
 
 @Component
@@ -87,6 +90,24 @@ public class UserServiceimpl implements UserService {
 		BeanUtils.copyProperties(userEntity, returnvaule);
 
 		return returnvaule;
+	}
+
+	
+
+	public UserDto updateUser(String userId,UserDto user) {
+		
+
+		UserDto returnvaule = new UserDto();
+		UserEntity userEntity = userReposit.findByUserid(userId);
+		if (userEntity == null)
+			throw new UserServiceException(ErrorMessages.NO_RECORD_FOUND.getErrorMessages());
+		userEntity.setFirstname(user.getFirstname());
+		
+		userEntity.setLastname(user.getLastname());
+		
+		UserEntity	updatedUserdetails=userReposit.save(userEntity);
+		BeanUtils.copyProperties(updatedUserdetails, returnvaule);
+		return returnvaule ;
 	}
 
 }

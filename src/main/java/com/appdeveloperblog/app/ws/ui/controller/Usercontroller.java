@@ -63,10 +63,20 @@ produces= {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
 		return returnvalue;
 	}
 
-	@PutMapping
-	public String updateUser() {
+	@PutMapping(path="/{id}",consumes= {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE},
+			produces= {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
+	
+	public UserRest updateUser(@PathVariable String id,@RequestBody UserDetailRequestModel userdetail) {
 
-		return "update user was called";
+		UserRest returnvalue = new UserRest();
+
+		UserDto userDto = new UserDto();
+		BeanUtils.copyProperties(userdetail, userDto);
+
+		UserDto updateUser = userService.updateUser( id,userDto);
+		BeanUtils.copyProperties(updateUser, returnvalue);
+
+		return returnvalue;
 	}
 
 	@DeleteMapping
