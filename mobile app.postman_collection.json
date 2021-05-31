@@ -6,6 +6,89 @@
 	},
 	"item": [
 		{
+			"name": "get user by Id",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhYmNAZCIsImV4cCI6MTYyMjcyOTkwMX0.EMPLjcx9r4lcTS-pSKY4ZJp7WlVfd-ky-o7xZnDk1agknJ3amRNxu1KZxyMphcaasLO_PlWUOGuZRdWtoELcpA",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/mobile-app/users/d1ddsjhssds311sns4q1db11b1hqs1",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"mobile-app",
+						"users",
+						"d1ddsjhssds311sns4q1db11b1hqs1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create account",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstname\": \"a\",\r\n    \"lastname\": \"b\",\r\n    \"email\": \"b@b\",\r\n    \"password\": \"1234\"\r\n}"
+				},
+				"url": {
+					"raw": "{{url}}/mobile-app/users",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"mobile-app",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "login",
 			"request": {
 				"auth": {
@@ -47,100 +130,14 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/users/login",
-					"protocol": "http",
+					"raw": "{{url}}/mobile-app/users/login",
 					"host": [
-						"localhost"
+						"{{url}}"
 					],
-					"port": "8080",
 					"path": [
+						"mobile-app",
 						"users",
 						"login"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "get user by Id",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
-			"request": {
-				"auth": {
-					"type": "noauth"
-				},
-				"method": "GET",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhYmNAZCIsImV4cCI6MTYyMjcyOTkwMX0.EMPLjcx9r4lcTS-pSKY4ZJp7WlVfd-ky-o7xZnDk1agknJ3amRNxu1KZxyMphcaasLO_PlWUOGuZRdWtoELcpA",
-						"type": "text"
-					},
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"type": "text"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost:8080/users/d1ddsjhssds311sns4q1db11b1hqs1",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"users",
-						"d1ddsjhssds311sns4q1db11b1hqs1"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "create account",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"type": "text"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"firstname\": \"a\",\r\n    \"lastname\": \"b\",\r\n    \"email\": \"b@b\",\r\n    \"password\": \"1234\"\r\n}"
-				},
-				"url": {
-					"raw": "http://localhost:8080/users",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"users"
 					]
 				}
 			},
@@ -177,13 +174,12 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/users/d1ddsjhssds311sns4q1db11b1hqs1",
-					"protocol": "http",
+					"raw": "{{url}}/mobile-app/users/d1ddsjhssds311sns4q1db11b1hqs1",
 					"host": [
-						"localhost"
+						"{{url}}"
 					],
-					"port": "8080",
 					"path": [
+						"mobile-app",
 						"users",
 						"d1ddsjhssds311sns4q1db11b1hqs1"
 					]
@@ -220,13 +216,53 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "http://localhost:8080/users?page=0&limit=3",
-					"protocol": "http",
+					"raw": "{{url}}/mobile-app/users",
 					"host": [
-						"localhost"
+						"{{url}}"
 					],
-					"port": "8080",
 					"path": [
+						"mobile-app",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "collection users by page",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJLQUpBTEAxNCIsImV4cCI6MTYyMjk3NjgzNn0.qfnIbbGI0jbjmOnF-oDEoT3CD3AhMdT0r7uVNyQQKeiuCAkyPnKbWXhvE-WmWkJx5cIcjCDRejpijcFZWAw5Sw",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{url}}/mobile-app/users?page=0&limit=3",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"mobile-app",
 						"users"
 					],
 					"query": [
