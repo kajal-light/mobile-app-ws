@@ -3,6 +3,7 @@ package com.kajal.mobile.app.ws.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,6 +21,7 @@ import com.kajal.mobile.app.ws.service.UserService;
 import com.kajal.mobile.app.ws.shared.Utils;
 import com.kajal.mobile.app.ws.ui.Exceptionerror.ErrorMessages;
 import com.kajal.mobile.app.ws.ui.exception.UserServiceException;
+import com.kajal.mobile.app.ws.ui.shared.dto.AddressDto;
 import com.kajal.mobile.app.ws.ui.shared.dto.UserDto;
 import com.kajal.mobile.app.ws.ui.shared.dto.Spring.SpringApplicationsContext;
 
@@ -28,7 +30,7 @@ public class UserServiceimpl implements UserService {
 
 	@Autowired
 	UserRepository userRepository;
-	
+
 	@Autowired
 	Utils utils;
 
@@ -37,9 +39,23 @@ public class UserServiceimpl implements UserService {
 
 	public UserDto createUser(UserDto user) {
 
-		UserEntity userentity = new UserEntity();
+		if (userRepository.findByEmail(user.getEmail()) != null)
+			throw new RuntimeException("record already found");
+		for (int i = 0; i < user.getAddresses().size(); i++) {
 
-		BeanUtils.copyProperties(user, userentity);
+			AddressDto address = user.getAddresses().get(i);
+			address.setUserDetails(user);
+			address.setAddressId(utils.genrateAddressId(30));
+
+			user.getAddresses().set(i, address);
+
+		}
+
+		// UserEntity userentity = new UserEntity();
+
+		// BeanUtils.copyProperties(user, userentity);
+		ModelMapper modelMapper = new ModelMapper();
+		UserEntity userentity = modelMapper.map(user, UserEntity.class);
 
 		String publicUserId = utils.genrateUserId(30);
 		userentity.setUserid(publicUserId);
@@ -49,8 +65,9 @@ public class UserServiceimpl implements UserService {
 		userentity.setEmailVerificationToken("false");
 		UserEntity storedDeatils = userRepository.save(userentity);
 
-		UserDto returnvaule = new UserDto();
-		BeanUtils.copyProperties(storedDeatils, returnvaule);
+		// UserDto returnvaule = new UserDto();
+		// BeanUtils.copyProperties(storedDeatils, returnvaule);
+		UserDto returnvaule = modelMapper.map(storedDeatils, UserDto.class);
 
 		return returnvaule;
 	}

@@ -3,6 +3,7 @@ package com.kajal.mobile.app.ws.ui.shared.dto;
 public class AddressDto {
 
 private long id;
+private String addressId;
 	private String city;
 	private String country;
 	
@@ -53,5 +54,11 @@ private long id;
 	public void setUserDetails(UserDto userDetails) {
 		this.userDetails = userDetails;
 	}
-
+	public String getAddressId() {
+		return addressId;
+	}
+	public void setAddressId(String addressId) {
+		this.addressId = addressId;
+	}
+	
 }

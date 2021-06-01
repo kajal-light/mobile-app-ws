@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -18,20 +19,30 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.kajal.mobile.app.ws.service.AddressService;
 import com.kajal.mobile.app.ws.service.UserService;
 import com.kajal.mobile.app.ws.ui.Exceptionerror.ErrorMessages;
 import com.kajal.mobile.app.ws.ui.exception.UserServiceException;
 import com.kajal.mobile.app.ws.ui.model.request.UserDetailRequestModel;
+import com.kajal.mobile.app.ws.ui.model.response.AddressesRest;
 import com.kajal.mobile.app.ws.ui.model.response.OperationStatusModel;
 import com.kajal.mobile.app.ws.ui.model.response.ResultDeleted;
 import com.kajal.mobile.app.ws.ui.model.response.SuccessorNot;
 import com.kajal.mobile.app.ws.ui.model.response.UserRest;
+import com.kajal.mobile.app.ws.ui.shared.dto.AddressDto;
 import com.kajal.mobile.app.ws.ui.shared.dto.UserDto;
 
 @RestController
 @RequestMapping("users") // http:localhost:8080/users
 
 public class Usercontroller {
+
+	
+	@Autowired
+	AddressService addressService;
+	
+	@Autowired
+	AddressService addressesService;
 
 	@Autowired
 	UserService userService;
@@ -61,7 +72,7 @@ public class Usercontroller {
 		UserDto userDto = modelMapper.map(userdetail, UserDto.class);
 
 		UserDto createdUser = userService.createUser(userDto);
-		BeanUtils.copyProperties(createdUser, returnvalue);
+		returnvalue = modelMapper.map(createdUser, UserRest.class);
 
 		return returnvalue;
 	}
@@ -113,5 +124,35 @@ public class Usercontroller {
 		return returnValue;
 
 	}
+
+	// http://localhost:8080/mobile-WS/USERS/ID/ADDRESSES
+	@GetMapping(path = "/{id}/addresses", produces = { MediaType.APPLICATION_XML_VALUE,
+			MediaType.APPLICATION_JSON_VALUE })
+	public List<AddressesRest> getUserAddresses(@PathVariable String id) {
+		List<AddressesRest> returnvalue = new ArrayList<>();
+		List<AddressDto> addressesDto = addressesService.getAddresses(id);
+
+		if (addressesDto != null && !addressesDto.isEmpty()) {
+
+			java.lang.reflect.Type listType = new TypeToken<List<AddressesRest>>() {
+			}.getType();
+			ModelMapper modelMapper = new ModelMapper();
+			returnvalue = modelMapper.map(addressesDto, listType);
+
+		}
+
+		return returnvalue;
+	}
+	
+	@GetMapping(path = "/{id}/addresses/{addressId}", produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
+	public AddressesRest getUserAddress(@PathVariable String addressId) {
+		
+		AddressDto addressesDto= addressesService.getAddress(addressId);
+		ModelMapper modelMapper = new ModelMapper();
+		
+		return modelMapper.map(addressesDto, AddressesRest.class);
+	
+	}
+	
 
 }

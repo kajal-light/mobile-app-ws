@@ -16,6 +16,11 @@ public class Utils {
 
 		return genrateRandomString(length);
 	}
+	
+	public String genrateAddressId(int length) {
+
+		return genrateRandomString(length);
+	}
 
 	private String genrateRandomString(int length) {
 

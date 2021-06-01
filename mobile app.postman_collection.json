@@ -18,7 +18,7 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhYmNAZCIsImV4cCI6MTYyMjcyOTkwMX0.EMPLjcx9r4lcTS-pSKY4ZJp7WlVfd-ky-o7xZnDk1agknJ3amRNxu1KZxyMphcaasLO_PlWUOGuZRdWtoELcpA",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJiQGdmYiIsImV4cCI6MTYyMzQzMTc0M30.lp2wv_fc0sj7nl_xIfRVWvRzezhoR1Y4bu5oQeJswHJ91-yr5pxe77uSEu-yL9oyg3lZ3tFGL8LwTaDHdELSfQ",
 						"type": "text"
 					},
 					{
@@ -42,14 +42,16 @@
 					}
 				},
 				"url": {
-					"raw": "{{url}}/mobile-app/users/d1ddsjhssds311sns4q1db11b1hqs1",
+					"raw": "{{url}}/mobile-app/users/dqsdffddfh4d12dssjdd31ssd3nsdb/addresses/sqqd4jsdjs1j1jh41s3sq1n14q11hs",
 					"host": [
 						"{{url}}"
 					],
 					"path": [
 						"mobile-app",
 						"users",
-						"d1ddsjhssds311sns4q1db11b1hqs1"
+						"dqsdffddfh4d12dssjdd31ssd3nsdb",
+						"addresses",
+						"sqqd4jsdjs1j1jh41s3sq1n14q11hs"
 					]
 				}
 			},
@@ -73,7 +75,40 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"firstname\": \"a\",\r\n    \"lastname\": \"b\",\r\n    \"email\": \"b@b\",\r\n    \"password\": \"1234\"\r\n}"
+					"raw": "{\r\n    \"firstname\": \"gh\",\r\n    \"lastname\": \"b\",\r\n    \"email\": \"b@afb\",\r\n    \"password\": \"1234\",\r\n    \"addresses\": [\r\n        {\r\n            \"city\": \"pune\",\r\n            \"country\": \"india\",\r\n            \"streetName\": \"123 street name\",\r\n            \"postalCode\": \"ABCCA\",\r\n\"type\": \"biling\"\r\n        },\r\n        {\r\n            \"city\": \"pune\",\r\n            \"country\": \"india\",\r\n            \"streetName\": \"123 street name\",\r\n            \"postalCode\": \"ABCCA\",\r\n\"type\": \"Shipping\"\r\n        }\r\n    ]\r\n}"
+				},
+				"url": {
+					"raw": "{{url}}/mobile-app/users",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"mobile-app",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create account Copy",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstname\": \"a\",\r\n    \"lastname\": \"b\",\r\n    \"email\": \"bdfgj@b4\",\r\n    \"password\": \"1234\"\r\n}"
 				},
 				"url": {
 					"raw": "{{url}}/mobile-app/users",
@@ -122,7 +157,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"email\": \"KAJAL@14\",\r\n    \"password\": \"1234\"\r\n}",
+					"raw": "{\r\n    \"email\": \"b@gfb\",\r\n    \"password\": \"1234\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
