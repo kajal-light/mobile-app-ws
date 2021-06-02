@@ -1,8 +1,10 @@
 package com.kajal.mobile.app.ws.ui.model.response;
 
+
+
 import com.kajal.mobile.app.ws.ui.shared.dto.UserDto;
 
-public class AddressesRest {
+public class AddressesRest{
 
 	private String addressId;
 	private String city;
@@ -47,5 +49,5 @@ public class AddressesRest {
 	}
 	private String streetName;
 	private String postalCode;
-
+	
 }

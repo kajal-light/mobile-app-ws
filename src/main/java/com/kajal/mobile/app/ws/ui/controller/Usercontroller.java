@@ -2,12 +2,17 @@
 package com.kajal.mobile.app.ws.ui.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -128,7 +133,7 @@ public class Usercontroller {
 	// http://localhost:8080/mobile-WS/USERS/ID/ADDRESSES
 	@GetMapping(path = "/{id}/addresses", produces = { MediaType.APPLICATION_XML_VALUE,
 			MediaType.APPLICATION_JSON_VALUE })
-	public List<AddressesRest> getUserAddresses(@PathVariable String id) {
+	public CollectionModel<AddressesRest> getUserAddresses(@PathVariable String id) {
 		List<AddressesRest> returnvalue = new ArrayList<>();
 		List<AddressDto> addressesDto = addressesService.getAddresses(id);
 
@@ -140,19 +145,42 @@ public class Usercontroller {
 			returnvalue = modelMapper.map(addressesDto, listType);
 
 		}
+		Link userLink=WebMvcLinkBuilder.linkTo(Usercontroller.class).slash(id).withRel("user");
 
-		return returnvalue;
+		Link selfLink=WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(Usercontroller.class).getUserAddresses(id)).withSelfRel();
+
+		return CollectionModel.of(returnvalue,userLink,selfLink);
 	}
 	
-	@GetMapping(path = "/{id}/addresses/{addressId}", produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
-	public AddressesRest getUserAddress(@PathVariable String addressId) {
+	@GetMapping(path = "/{userid}/addresses/{addressId}", produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
+	public EntityModel<AddressesRest> getUserAddress(@PathVariable String userid, @PathVariable String addressId) {
 		
 		AddressDto addressesDto= addressesService.getAddress(addressId);
 		ModelMapper modelMapper = new ModelMapper();
+		AddressesRest returnValue=modelMapper.map(addressesDto, AddressesRest.class);
 		
-		return modelMapper.map(addressesDto, AddressesRest.class);
+		//http://localhost:8080/users/<userId>/addresses/{addressId}
+		
+	Link userLink=WebMvcLinkBuilder.linkTo(Usercontroller.class).slash(userid).withRel("user");
 	
-	}
+	Link userAddressLink=WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(Usercontroller.class).getUserAddresses("userid")).withRel("addresses");
+	
+	Link selfLink=WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(Usercontroller.class).getUserAddress(userid,addressId)).withSelfRel();
+	
+	
+	
+	
+	//returnValue.add(userLink);
+	//returnValue.add(userAddressLink);	
+	//returnValue.add(selfLink);
 	
 
+		
+	return EntityModel.of(returnValue, Arrays.asList(userLink,userAddressLink,selfLink));	
+		
+		
+		
+	}
+	
+	
 }
