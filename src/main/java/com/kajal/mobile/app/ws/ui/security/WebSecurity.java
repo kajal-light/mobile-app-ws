@@ -10,9 +10,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.kajal.mobile.app.ws.service.UserService;
-import com.kajal.mobile.app.ws.ui.authentication.AuthenticationFilter;
-import com.kajal.mobile.app.ws.ui.authentication.AuthorizationFilter;
-import com.kajal.mobile.app.ws.ui.constants.SecurityConstants;
+import com.kajal.mobile.app.ws.shared.SecurityConstants;
 
 @Configuration
 @EnableWebSecurity
@@ -29,7 +27,11 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable().authorizeRequests().antMatchers(HttpMethod.POST, SecurityConstants.SIGN_UP_URL)
-				.permitAll().anyRequest().authenticated().and().addFilter(getAuthenticationFilter())
+				.permitAll()
+				.antMatchers(HttpMethod.GET, SecurityConstants.VERIFICATION_EMAIL_URL)
+				.permitAll()
+				.anyRequest().authenticated().and().addFilter(getAuthenticationFilter())
+				
 
 				.addFilter(new AuthorizationFilter(authenticationManager()))
 				.sessionManagement()

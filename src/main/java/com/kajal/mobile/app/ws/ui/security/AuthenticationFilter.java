@@ -1,4 +1,4 @@
-package com.kajal.mobile.app.ws.ui.authentication;
+package com.kajal.mobile.app.ws.ui.security;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,10 +20,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kajal.mobile.app.ws.service.UserService;
 import com.kajal.mobile.app.ws.service.impl.UserServiceimpl;
-import com.kajal.mobile.app.ws.ui.constants.SecurityConstants;
+import com.kajal.mobile.app.ws.shared.SecurityConstants;
+import com.kajal.mobile.app.ws.shared.SpringApplicationsContext;
 import com.kajal.mobile.app.ws.ui.model.request.UserLoginRequestModel;
 import com.kajal.mobile.app.ws.ui.shared.dto.UserDto;
-import com.kajal.mobile.app.ws.ui.shared.dto.Spring.SpringApplicationsContext;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

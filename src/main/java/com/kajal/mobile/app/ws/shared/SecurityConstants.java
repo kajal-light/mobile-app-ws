@@ -1,7 +1,4 @@
-package com.kajal.mobile.app.ws.ui.constants;
-
-import com.kajal.mobile.app.ws.ui.appproperti.AppProperties;
-import com.kajal.mobile.app.ws.ui.shared.dto.Spring.SpringApplicationsContext;
+package com.kajal.mobile.app.ws.shared;
 
 public class SecurityConstants {
 
@@ -12,6 +9,7 @@ public static final String HEADER_STRING="Authorization";
 
 public static final String SIGN_UP_URL="/users";
 
+public static final String VERIFICATION_EMAIL_URL ="/users/email-verification";
 
 public static String getTokenSecret() {
 	

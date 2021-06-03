@@ -8,8 +8,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import com.kajal.mobile.app.ws.ui.appproperti.AppProperties;
-import com.kajal.mobile.app.ws.ui.shared.dto.Spring.SpringApplicationsContext;
+import com.kajal.mobile.app.ws.shared.AppProperties;
+import com.kajal.mobile.app.ws.shared.SpringApplicationsContext;
 
 @SpringBootApplication(scanBasePackages = "com.kajal.mobile.app.ws")
 public class MobileAppWsApplication extends SpringBootServletInitializer {

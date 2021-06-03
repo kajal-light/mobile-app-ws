@@ -18,12 +18,12 @@ import org.springframework.stereotype.Service;
 import com.kajal.mobile.app.ws.io.entity.UserEntity;
 import com.kajal.mobile.app.ws.repo.UserRepository;
 import com.kajal.mobile.app.ws.service.UserService;
+import com.kajal.mobile.app.ws.shared.SpringApplicationsContext;
 import com.kajal.mobile.app.ws.shared.Utils;
-import com.kajal.mobile.app.ws.ui.Exceptionerror.ErrorMessages;
+import com.kajal.mobile.app.ws.ui.exception.ErrorMessages;
 import com.kajal.mobile.app.ws.ui.exception.UserServiceException;
 import com.kajal.mobile.app.ws.ui.shared.dto.AddressDto;
 import com.kajal.mobile.app.ws.ui.shared.dto.UserDto;
-import com.kajal.mobile.app.ws.ui.shared.dto.Spring.SpringApplicationsContext;
 
 @Service
 public class UserServiceimpl implements UserService {
@@ -51,9 +51,6 @@ public class UserServiceimpl implements UserService {
 
 		}
 
-		// UserEntity userentity = new UserEntity();
-
-		// BeanUtils.copyProperties(user, userentity);
 		ModelMapper modelMapper = new ModelMapper();
 		UserEntity userentity = modelMapper.map(user, UserEntity.class);
 
@@ -62,11 +59,9 @@ public class UserServiceimpl implements UserService {
 
 		userentity.setPassword(user.getPassword());
 		userentity.setEncryptedPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+		userentity.setEmailVerificationToken(Utils.generateEmailVerificationToken(publicUserId));
 		userentity.setEmailVerificationToken("false");
 		UserEntity storedDeatils = userRepository.save(userentity);
-
-		// UserDto returnvaule = new UserDto();
-		// BeanUtils.copyProperties(storedDeatils, returnvaule);
 		UserDto returnvaule = modelMapper.map(storedDeatils, UserDto.class);
 
 		return returnvaule;
@@ -91,7 +86,9 @@ public class UserServiceimpl implements UserService {
 
 		if (userEntity == null)
 			throw new UsernameNotFoundException(email);
-		return new User(userEntity.getEmail(), userEntity.getEncryptedPassword(), new ArrayList<>());
+		return new User(userEntity.getEmail(), userEntity.getEncryptedPassword(),
+				userEntity.getEmailVerificationStatus(), true, true, true, new ArrayList<>());
+
 
 	}
 
@@ -155,6 +152,26 @@ public class UserServiceimpl implements UserService {
 
 		return returnValue;
 
+	}
+
+	@Override
+	public boolean verifyEmailToken(String token) {
+
+		boolean returnValue = false;
+
+		// find user by token
+		UserEntity userEntity = userRepository.findUserByEmailVerificationToken(token);
+
+		if (userEntity != null) {
+			boolean hasTokenExpiredd = Utils.hasTokenExpired(token);
+			userEntity.setEmailVerificationToken(null);
+			userEntity.setEmailVerificationStatus(Boolean.TRUE);
+			userRepository.save(userEntity);
+			returnValue = true;
+
+		}
+
+		return returnValue;
 	}
 
 }

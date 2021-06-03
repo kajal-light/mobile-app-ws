@@ -1,9 +1,14 @@
 package com.kajal.mobile.app.ws.shared;
 
 import java.security.SecureRandom;
+import java.util.Date;
 import java.util.Random;
 
 import org.springframework.stereotype.Component;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 
 @Component
 public class Utils {
@@ -16,7 +21,7 @@ public class Utils {
 
 		return genrateRandomString(length);
 	}
-	
+
 	public String genrateAddressId(int length) {
 
 		return genrateRandomString(length);
@@ -32,6 +37,22 @@ public class Utils {
 
 		return new String(returnValue);
 
+	}
+
+	public static boolean hasTokenExpired(String token) {
+		Claims claims = Jwts.parser().setSigningKey(SecurityConstants.getTokenSecret()).parseClaimsJws(token).getBody();
+		Date tokenExpirationDate = claims.getExpiration();
+		Date todayDate = new Date();
+
+		return tokenExpirationDate.before(todayDate);
+	}
+
+	public static String generateEmailVerificationToken(String publicUserId) {
+		String token = Jwts.builder().setSubject(publicUserId)
+				.setExpiration(new Date(System.currentTimeMillis() + SecurityConstants.EXPIRATION_TIME))
+				.signWith(SignatureAlgorithm.HS512, SecurityConstants.getTokenSecret()).compact();
+
+		return token;
 	}
 
 }

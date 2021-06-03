@@ -1,4 +1,4 @@
-package com.kajal.mobile.app.ws.ui.Exceptionerror;
+package com.kajal.mobile.app.ws.ui.exception;
 
 public enum ErrorMessages {
 

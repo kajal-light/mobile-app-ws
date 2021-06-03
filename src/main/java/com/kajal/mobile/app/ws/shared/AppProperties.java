@@ -1,4 +1,4 @@
-package com.kajal.mobile.app.ws.ui.appproperti;
+package com.kajal.mobile.app.ws.shared;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;

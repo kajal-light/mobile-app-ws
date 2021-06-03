@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.kajal.mobile.app.ws.service.AddressService;
 import com.kajal.mobile.app.ws.service.UserService;
-import com.kajal.mobile.app.ws.ui.Exceptionerror.ErrorMessages;
+import com.kajal.mobile.app.ws.ui.exception.ErrorMessages;
 import com.kajal.mobile.app.ws.ui.exception.UserServiceException;
 import com.kajal.mobile.app.ws.ui.model.request.UserDetailRequestModel;
 import com.kajal.mobile.app.ws.ui.model.response.AddressesRest;
@@ -42,10 +42,9 @@ import com.kajal.mobile.app.ws.ui.shared.dto.UserDto;
 
 public class Usercontroller {
 
-	
 	@Autowired
 	AddressService addressService;
-	
+
 	@Autowired
 	AddressService addressesService;
 
@@ -145,42 +144,63 @@ public class Usercontroller {
 			returnvalue = modelMapper.map(addressesDto, listType);
 
 		}
-		Link userLink=WebMvcLinkBuilder.linkTo(Usercontroller.class).slash(id).withRel("user");
+		Link userLink = WebMvcLinkBuilder.linkTo(Usercontroller.class).slash(id).withRel("user");
 
-		Link selfLink=WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(Usercontroller.class).getUserAddresses(id)).withSelfRel();
+		Link selfLink = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(Usercontroller.class).getUserAddresses(id))
+				.withSelfRel();
 
-		return CollectionModel.of(returnvalue,userLink,selfLink);
+		return CollectionModel.of(returnvalue, userLink, selfLink);
 	}
-	
-	@GetMapping(path = "/{userid}/addresses/{addressId}", produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
+
+	@GetMapping(path = "/{userid}/addresses/{addressId}", produces = { MediaType.APPLICATION_XML_VALUE,
+			MediaType.APPLICATION_JSON_VALUE })
 	public EntityModel<AddressesRest> getUserAddress(@PathVariable String userid, @PathVariable String addressId) {
-		
-		AddressDto addressesDto= addressesService.getAddress(addressId);
-		ModelMapper modelMapper = new ModelMapper();
-		AddressesRest returnValue=modelMapper.map(addressesDto, AddressesRest.class);
-		
-		//http://localhost:8080/users/<userId>/addresses/{addressId}
-		
-	Link userLink=WebMvcLinkBuilder.linkTo(Usercontroller.class).slash(userid).withRel("user");
-	
-	Link userAddressLink=WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(Usercontroller.class).getUserAddresses("userid")).withRel("addresses");
-	
-	Link selfLink=WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(Usercontroller.class).getUserAddress(userid,addressId)).withSelfRel();
-	
-	
-	
-	
-	//returnValue.add(userLink);
-	//returnValue.add(userAddressLink);	
-	//returnValue.add(selfLink);
-	
 
-		
-	return EntityModel.of(returnValue, Arrays.asList(userLink,userAddressLink,selfLink));	
-		
-		
-		
+		AddressDto addressesDto = addressesService.getAddress(addressId);
+		ModelMapper modelMapper = new ModelMapper();
+		AddressesRest returnValue = modelMapper.map(addressesDto, AddressesRest.class);
+
+		// http://localhost:8080/users/<userId>/addresses/{addressId}
+
+		Link userLink = WebMvcLinkBuilder.linkTo(Usercontroller.class).slash(userid).withRel("user");
+
+		Link userAddressLink = WebMvcLinkBuilder
+				.linkTo(WebMvcLinkBuilder.methodOn(Usercontroller.class).getUserAddresses("userid"))
+				.withRel("addresses");
+
+		Link selfLink = WebMvcLinkBuilder
+				.linkTo(WebMvcLinkBuilder.methodOn(Usercontroller.class).getUserAddress(userid, addressId))
+				.withSelfRel();
+
+		// returnValue.add(userLink);
+		// returnValue.add(userAddressLink);
+		// returnValue.add(selfLink);
+
+		return EntityModel.of(returnValue, Arrays.asList(userLink, userAddressLink, selfLink));
+
 	}
-	
-	
+
+	// http://localhost:8080/mobile-app-ws/users/email-verification?token-sdfsdf
+
+	@GetMapping(path = "/email-verification", produces = { MediaType.APPLICATION_XML_VALUE,
+			MediaType.APPLICATION_JSON_VALUE })
+	public OperationStatusModel verifyEmailToken(@RequestParam(value = "token") String token) {
+
+		OperationStatusModel returnValue = new OperationStatusModel();
+
+		returnValue.setOperationName(RequestOperationName.VERIFY_EMAIL.name());
+		boolean isVerified = userService.verifyEmailToken(token);
+		if (isVerified) {
+
+			returnValue.setOperationResult(SuccessorNot.SUCCESS.name());
+
+		} else {
+
+			returnValue.setOperationResult(SuccessorNot.ERROR.name());
+
+		}
+
+		return returnValue;
+	}
+
 }

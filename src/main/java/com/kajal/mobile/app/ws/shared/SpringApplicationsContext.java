@@ -1,4 +1,4 @@
-package com.kajal.mobile.app.ws.ui.shared.dto.Spring;
+package com.kajal.mobile.app.ws.shared;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;

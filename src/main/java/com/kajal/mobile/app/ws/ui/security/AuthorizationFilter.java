@@ -1,4 +1,4 @@
-package com.kajal.mobile.app.ws.ui.authentication;
+package com.kajal.mobile.app.ws.ui.security;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -13,7 +13,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
-import com.kajal.mobile.app.ws.ui.constants.SecurityConstants;
+import com.kajal.mobile.app.ws.shared.SecurityConstants;
 
 import io.jsonwebtoken.Jwts;
 
